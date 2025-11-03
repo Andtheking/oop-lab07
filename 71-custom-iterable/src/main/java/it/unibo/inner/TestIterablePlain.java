@@ -16,19 +16,14 @@ public class TestIterablePlain {
     }
 
     public static void main(final String[] args) {
-        String[] test1 = { "pippo", "pluto", "paperino" };
-
-        IterableWithPolicy<String> evenIterable = getIterableWithPolicy(test1);
+        final String[] test1 = { "pippo", "pluto", "paperino" };
+        final IterableWithPolicy<String> evenIterable = getIterableWithPolicy(test1);
         assertContentEqualsInOrder(List.of("pippo", "pluto", "paperino"), evenIterable);
-
-        String[] test2 = {};
-
-        IterableWithPolicy<String> emptyIterable = getIterableWithPolicy(test2);
-        assertContentEqualsInOrder(emptyIterable, List.of());
-
+        final String[] test2 = {};
+        final IterableWithPolicy<String> emptyIterable = getIterableWithPolicy(test2);
+        assertContentEqualsInOrder(List.of(), emptyIterable);
         String[] test3 = { "foo" };
-
-        IterableWithPolicy<String> oneIterable = getIterableWithPolicy(test3);
-        assertContentEqualsInOrder(oneIterable, List.of("foo"));
+        final IterableWithPolicy<String> oneIterable = getIterableWithPolicy(test3);
+        assertContentEqualsInOrder(List.of("foo"), oneIterable);
     }
 }
