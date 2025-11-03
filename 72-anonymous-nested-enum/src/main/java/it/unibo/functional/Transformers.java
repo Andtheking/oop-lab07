@@ -57,7 +57,7 @@ public final class Transformers {
         return flattenTransform(base, new Function<I,Collection<? extends O>>() {
             @Override
             public Collection<? extends O> call(I input) {
-                return new ArrayList<>(List.of(transformer.call(input)));
+                return List.of(transformer.call(input));
             }
         });
     }
