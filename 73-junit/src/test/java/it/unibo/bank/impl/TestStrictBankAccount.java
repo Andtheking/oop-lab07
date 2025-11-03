@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Test class for the {@link StrictBankAccount} class.
  */
 class TestStrictBankAccount {
+    private static final double AMOUNT = 100;
+    private static final int ID_ACCOUNT = 1;
 
     // Create a new AccountHolder and a StrictBankAccount for it each time tests are executed.
     private AccountHolder mRossi;
@@ -23,7 +25,7 @@ class TestStrictBankAccount {
      */
     @BeforeEach
     public void setUp() {
-        mRossi = new AccountHolder("Mario", "Rossi",1);
+        mRossi = new AccountHolder("Mario", "Rossi", ID_ACCOUNT);
         bankAccount = new StrictBankAccount(mRossi, 0);
     }
 
@@ -33,6 +35,8 @@ class TestStrictBankAccount {
     @Test
     public void testInitialization() {
         assertEquals(0,bankAccount.getBalance());
+        assertEquals(0,bankAccount.getTransactionsCount());
+        assertEquals(mRossi, bankAccount.getAccountHolder());
     }
 
     /**
@@ -40,8 +44,12 @@ class TestStrictBankAccount {
      */
     @Test
     public void testManagementFees() {
-        bankAccount.deposit(1, 100);
-        assertEquals(100, bankAccount.getBalance());
+        bankAccount.deposit(ID_ACCOUNT, AMOUNT);
+        final double expected = AMOUNT - (StrictBankAccount.MANAGEMENT_FEE + bankAccount.getTransactionsCount() * StrictBankAccount.TRANSACTION_FEE);
+        assertEquals(AMOUNT, bankAccount.getBalance());
+        assertEquals(1, bankAccount.getTransactionsCount());
+        bankAccount.chargeManagementFees(ID_ACCOUNT);
+        assertEquals(bankAccount.getBalance(), expected);
     }
 
     /**
@@ -52,7 +60,7 @@ class TestStrictBankAccount {
         assertThrows(IllegalArgumentException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
-                bankAccount.withdraw(1, -100);
+                bankAccount.withdraw(ID_ACCOUNT, -AMOUNT);
             }
         });
     }
@@ -65,7 +73,7 @@ class TestStrictBankAccount {
         assertThrows(IllegalArgumentException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
-                bankAccount.withdraw(1, 100);
+                bankAccount.withdraw(ID_ACCOUNT, AMOUNT);
             }
         });
     }
