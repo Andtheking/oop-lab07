@@ -8,7 +8,7 @@ import it.unibo.inner.api.IterableWithPolicy;
 import it.unibo.inner.api.Predicate;
 
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
-    private T[] array;
+    private final T[] array;
     private Predicate<T> iterationPolicy;
 
     /**
@@ -60,7 +60,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T> {
 
     class IteratorImpl implements Iterator<T> {
         private int currentIndex;
-        private T[] array;
+        private final T[] array;
 
         /**
          * @param array
